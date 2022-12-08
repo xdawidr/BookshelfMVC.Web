@@ -52,13 +52,12 @@ namespace BookshelfMVC.Web
                 facebookOptions.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
             });
 
-            services.AddAuthorization(options =>
+           services.AddAuthorization(options =>
             {
-                options.AddPolicy("CreateNewPublisher", policy =>
-                policy.RequireClaim("ViewPublisher", "RequirePublisher"));
-                options.AddPolicy("ViewPublisher", policy =>
+                options.AddPolicy("CanViewPublisher", policy =>
                 policy.RequireClaim("ViewPublisher"));
             });
+           
             
         }
 

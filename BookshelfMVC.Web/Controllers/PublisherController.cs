@@ -16,7 +16,7 @@ namespace BookshelfMVC.Web.Controllers
             _publisherService = publisherService;
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Policy = "CanViewPublisher")]
         [HttpGet]
         public IActionResult Index()
         {
@@ -24,7 +24,7 @@ namespace BookshelfMVC.Web.Controllers
             return View(model);
         }
 
-       // [Authorize(Roles = "Admin")]
+        [Authorize(Policy = "CanViewPublisher")]
         [HttpPost]
         public IActionResult Index(int pageSize, int? pageNumber, string searchString)
         {
@@ -39,21 +39,22 @@ namespace BookshelfMVC.Web.Controllers
             var model = _publisherService.GetAllPublishersForList(pageSize, pageNumber.Value, searchString);
             return View(model);
         }
-        
+
+        [Authorize(Policy = "CanViewPublisher")]
         public IActionResult ViewPublisher(int publisherId)
         {
             var publisherModel = _publisherService.GetPublisherDetails(publisherId);
             return View(publisherModel);
         }
-
-        //[Authorize(Roles = "Admin")]
+        
+        [Authorize(Policy = "CanViewPublisher")]
         [HttpGet]
         public IActionResult AddPublisher()
         {
             return View(new NewPublisherVm());
         }
 
-        //[Authorize(Policy = "CanAddNewPublisher")]
+        [Authorize(Policy = "CanViewPublisher")]
         [HttpPost]
         public IActionResult AddPublisher(NewPublisherVm model)
         {
@@ -61,6 +62,7 @@ namespace BookshelfMVC.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Policy = "CanViewPublisher")]
         [HttpGet]
         public IActionResult EditPublisher(int id)
         {
@@ -68,6 +70,7 @@ namespace BookshelfMVC.Web.Controllers
             return View(publisher);
         }
 
+        [Authorize(Policy = "CanViewPublisher")]
         [HttpPost]
         public IActionResult EditPublisher(NewPublisherVm model)
         {
@@ -78,7 +81,8 @@ namespace BookshelfMVC.Web.Controllers
             }
             return View(model);
         }
-        
+
+        [Authorize(Policy = "CanViewPublisher")]
         public IActionResult DeletePublisher(int id)
         {
             _publisherService.DeletePublisher(id);
